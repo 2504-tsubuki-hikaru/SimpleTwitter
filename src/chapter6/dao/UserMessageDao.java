@@ -41,6 +41,7 @@ public class UserMessageDao {
               sql.append("SELECT ");
               sql.append("    messages.id as id, ");
               sql.append("    messages.text as text, ");
+              //ユーザーIDでそのユーザーのつぶやきだけ返したい。
               sql.append("    messages.user_id as user_id, ");
               sql.append("    users.account as account, ");
               sql.append("    users.name as name, ");
