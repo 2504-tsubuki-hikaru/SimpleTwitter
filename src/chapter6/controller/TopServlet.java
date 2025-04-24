@@ -40,7 +40,9 @@ public class TopServlet extends HttpServlet {
 
 	  log.info(new Object(){}.getClass().getEnclosingClass().getName() +
         " : " + new Object(){}.getClass().getEnclosingMethod().getName());
-
+	  
+	  /*//セッションからログインユーザーを取得し、ログインユーザーのオブジェクトが取得できた
+	   * 場合(nullではなかった場合)には変数isShowMessageFormにtrueを設定するというコード。*/
 	  boolean isShowMessageForm = false;
 	  User user = (User) request.getSession().getAttribute("loginUser");
       if (user != null) {

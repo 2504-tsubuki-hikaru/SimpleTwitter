@@ -63,7 +63,7 @@ public class MessageServlet extends HttpServlet {
         message.setUserId(user.getId());
 
         new MessageService().insert(message);
-        
+
         /*top.jspに遷移*/
         response.sendRedirect("./");
     }
