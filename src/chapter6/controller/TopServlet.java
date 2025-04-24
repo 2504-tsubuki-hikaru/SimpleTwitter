@@ -18,46 +18,46 @@ import chapter6.service.MessageService;
 @WebServlet(urlPatterns = { "/index.jsp" })
 public class TopServlet extends HttpServlet {
 
-    /**
-    * ロガーインスタンスの生成
-    */
-    Logger log = Logger.getLogger("twitter");
+	/**
+	* ロガーインスタンスの生成
+	*/
+	Logger log = Logger.getLogger("twitter");
 
-    /**
-    * デフォルトコンストラクタ
-    * アプリケーションの初期化を実施する。
-    */
-    public TopServlet() {
-        InitApplication application = InitApplication.getInstance();
-        application.init();
+	/**
+	* デフォルトコンストラクタ
+	* アプリケーションの初期化を実施する。
+	*/
+	public TopServlet() {
+		InitApplication application = InitApplication.getInstance();
+		application.init();
 
-    }
+	}
 
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws IOException, ServletException {
+	@Override
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws IOException, ServletException {
 
+		log.info(new Object() {
+		}.getClass().getEnclosingClass().getName() +
+				" : " + new Object() {
+				}.getClass().getEnclosingMethod().getName());
 
-	  log.info(new Object(){}.getClass().getEnclosingClass().getName() +
-        " : " + new Object(){}.getClass().getEnclosingMethod().getName());
+		/*//セッションからログインユーザーを取得し、ログインユーザーのオブジェクトが取得できた
+		 * 場合(nullではなかった場合)には変数isShowMessageFormにtrueを設定するというコード。*/
+		boolean isShowMessageForm = false;
+		User user = (User) request.getSession().getAttribute("loginUser");
+		if (user != null) {
+			isShowMessageForm = true;
+		}
 
-	  /*//セッションからログインユーザーを取得し、ログインユーザーのオブジェクトが取得できた
-	   * 場合(nullではなかった場合)には変数isShowMessageFormにtrueを設定するというコード。*/
-	  boolean isShowMessageForm = false;
-	  User user = (User) request.getSession().getAttribute("loginUser");
-      if (user != null) {
-          isShowMessageForm = true;
-      }
+		//変更点なのでコードの書き換えをするのかな
+		//ここを変更したら既存のdogetが使えないのではないのか？
+		//でもそもそもdogetメソッドって何をしているところだっけ？
+		String userId = request.getParameter("user_id");
+		List<UserMessage> messages = new MessageService().select(userId);
 
-      //変更点なのでコードの書き換えをするのかな
-      //ここを変更したら既存のdogetが使えないのではないのか？
-      //でもそもそもdogetメソッドって何をしているところだっけ？
-      String userId = request.getParameter("user_id");
-      List<UserMessage> messages = new MessageService().select(userId);
-
-
-      	request.setAttribute("messages", messages);
-      	request.setAttribute("isShowMessageForm", isShowMessageForm);
-        request.getRequestDispatcher("/top.jsp").forward(request, response);
-    }
+		request.setAttribute("messages", messages);
+		request.setAttribute("isShowMessageForm", isShowMessageForm);
+		request.getRequestDispatcher("/top.jsp").forward(request, response);
+	}
 }
