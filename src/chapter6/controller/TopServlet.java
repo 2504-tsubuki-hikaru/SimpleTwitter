@@ -40,7 +40,7 @@ public class TopServlet extends HttpServlet {
 
 	  log.info(new Object(){}.getClass().getEnclosingClass().getName() +
         " : " + new Object(){}.getClass().getEnclosingMethod().getName());
-	  
+
 	  /*//セッションからログインユーザーを取得し、ログインユーザーのオブジェクトが取得できた
 	   * 場合(nullではなかった場合)には変数isShowMessageFormにtrueを設定するというコード。*/
 	  boolean isShowMessageForm = false;
@@ -49,7 +49,12 @@ public class TopServlet extends HttpServlet {
           isShowMessageForm = true;
       }
 
-      List<UserMessage> messages = new MessageService().select();
+      //変更点なのでコードの書き換えをするのかな
+      //ここを変更したら既存のdogetが使えないのではないのか？
+      //でもそもそもdogetメソッドって何をしているところだっけ？
+      String userId = request.getParameter("user_id");
+      List<UserMessage> messages = new MessageService().select(userId);
+
 
       	request.setAttribute("messages", messages);
       	request.setAttribute("isShowMessageForm", isShowMessageForm);

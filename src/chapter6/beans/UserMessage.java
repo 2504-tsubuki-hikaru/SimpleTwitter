@@ -32,7 +32,7 @@ public class UserMessage implements Serializable {
 	public int getUserId() {
 		return userId;
 	}
-	public void setAccount(int userId) {
+	public void setUserId(int userId) {
 		this.userId = userId;
 	}
 	public String getText() {
