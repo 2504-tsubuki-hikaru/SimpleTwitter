@@ -73,7 +73,6 @@ public class UserService {
 		try {
 			// パスワード暗号化
 			String encPassword = CipherUtil.encrypt(password);
-
 			connection = getConnection();
 			User user = new UserDao().select(connection, accountOrEmail, encPassword);
 			commit(connection);
@@ -150,6 +149,29 @@ public class UserService {
 			rollback(connection);
 			log.log(Level.SEVERE, new Object() {
 			}.getClass().getEnclosingClass().getName() + " : " + e.toString(), e);
+			throw e;
+		} finally {
+			close(connection);
+		}
+	}
+
+	/*
+	 * String型の引数をもつ、selectメソッドを追加する
+	 */
+	public User select(String account) {
+
+		Connection connection = null;
+		try {
+			connection = getConnection();
+			User user = new UserDao().select(connection, account);
+			commit(connection);
+
+			return user;
+		} catch (RuntimeException e) {
+			rollback(connection);
+			throw e;
+		} catch (Error e) {
+			rollback(connection);
 			throw e;
 		} finally {
 			close(connection);

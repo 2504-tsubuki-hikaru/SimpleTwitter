@@ -20,101 +20,110 @@ import chapter6.service.UserService;
 @WebServlet(urlPatterns = { "/signup" })
 public class SignUpServlet extends HttpServlet {
 
+	/**
+	* ロガーインスタンスの生成
+	*/
+	Logger log = Logger.getLogger("twitter");
 
-   /**
-   * ロガーインスタンスの生成
-   */
-    Logger log = Logger.getLogger("twitter");
+	/**
+	* デフォルトコンストラクタ
+	* アプリケーションの初期化を実施する。
+	*/
 
-    /**
-    * デフォルトコンストラクタ
-    * アプリケーションの初期化を実施する。
-    */
+	public SignUpServlet() {
+		InitApplication application = InitApplication.getInstance();
+		application.init();
 
-    public SignUpServlet() {
-        InitApplication application = InitApplication.getInstance();
-        application.init();
+	}
 
-    }
+	@Override
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws IOException, ServletException {
 
+		log.info(new Object() {
+		}.getClass().getEnclosingClass().getName() +
+				" : " + new Object() {
+				}.getClass().getEnclosingMethod().getName());
 
-@Override
-protected void doGet(HttpServletRequest request, HttpServletResponse response)
-        throws IOException, ServletException {
+		request.getRequestDispatcher("signup.jsp").forward(request, response);
+	}
 
-  log.info(new Object(){}.getClass().getEnclosingClass().getName() +
-    " : " + new Object(){}.getClass().getEnclosingMethod().getName());
+	@Override
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws IOException, ServletException {
 
-    request.getRequestDispatcher("signup.jsp").forward(request, response);
-}
+		log.info(new Object() {
+		}.getClass().getEnclosingClass().getName() +
+				" : " + new Object() {
+				}.getClass().getEnclosingMethod().getName());
 
-@Override
-protected void doPost(HttpServletRequest request, HttpServletResponse response)
-        throws IOException, ServletException {
+		List<String> errorMessages = new ArrayList<String>();
 
+		User user = getUser(request);
+		if (!isValid(user, errorMessages)) {
+			request.setAttribute("errorMessages", errorMessages);
+			request.getRequestDispatcher("signup.jsp").forward(request, response);
+			return;
+		}
+		new UserService().insert(user);
+		response.sendRedirect("./");
+	}
 
-  log.info(new Object(){}.getClass().getEnclosingClass().getName() +
-    " : " + new Object(){}.getClass().getEnclosingMethod().getName());
+	private User getUser(HttpServletRequest request) throws IOException, ServletException {
 
-    List<String> errorMessages = new ArrayList<String>();
+		log.info(new Object() {
+		}.getClass().getEnclosingClass().getName() +
+				" : " + new Object() {
+				}.getClass().getEnclosingMethod().getName());
 
-    User user = getUser(request);
-    if (!isValid(user, errorMessages)) {
-        request.setAttribute("errorMessages", errorMessages);
-        request.getRequestDispatcher("signup.jsp").forward(request, response);
-        return;
-    }
-    new UserService().insert(user);
-    response.sendRedirect("./");
-}
+		User user = new User();
+		user.setName(request.getParameter("name"));
+		user.setAccount(request.getParameter("account"));
+		user.setPassword(request.getParameter("password"));
+		user.setEmail(request.getParameter("email"));
+		user.setDescription(request.getParameter("description"));
+		return user;
+	}
 
-private User getUser(HttpServletRequest request) throws IOException, ServletException {
+	private boolean isValid(User user, List<String> errorMessages) {
 
+		log.info(new Object() {
+		}.getClass().getEnclosingClass().getName() +
+				" : " + new Object() {
+				}.getClass().getEnclosingMethod().getName());
 
-  log.info(new Object(){}.getClass().getEnclosingClass().getName() +
-    " : " + new Object(){}.getClass().getEnclosingMethod().getName());
+		String name = user.getName();
+		String account = user.getAccount();
+		String password = user.getPassword();
+		String email = user.getEmail();
 
-    User user = new User();
-    user.setName(request.getParameter("name"));
-    user.setAccount(request.getParameter("account"));
-    user.setPassword(request.getParameter("password"));
-    user.setEmail(request.getParameter("email"));
-    user.setDescription(request.getParameter("description"));
-    return user;
-}
+		User confirmAccount = new UserService().select(account);
 
-private boolean isValid(User user, List<String> errorMessages) {
+		if (confirmAccount != null); {
+			errorMessages.add("アカウント名が重複しています");
+		}
 
+		if (!StringUtils.isBlank(name) && (20 < name.length())) {
+			errorMessages.add("名前は20文字以下で入力してください");
+		}
 
-  log.info(new Object(){}.getClass().getEnclosingClass().getName() +
-    " : " + new Object(){}.getClass().getEnclosingMethod().getName());
+		if (StringUtils.isBlank(account)) {
+			errorMessages.add("アカウント名を入力してください");
+		} else if (20 < account.length()) {
+			errorMessages.add("アカウント名は20文字以下で入力してください");
+		}
 
-    String name = user.getName();
-    String account = user.getAccount();
-    String password = user.getPassword();
-    String email = user.getEmail();
+		if (StringUtils.isBlank(password)) {
+			errorMessages.add("パスワードを入力してください");
+		}
 
-    if (!StringUtils.isBlank(name) && (20 < name.length())) {
-        errorMessages.add("名前は20文字以下で入力してください");
-    }
+		if (!StringUtils.isBlank(email) && (50 < email.length())) {
+			errorMessages.add("メールアドレスは50文字以下で入力してください");
+		}
 
-    if (StringUtils.isBlank(account)) {
-        errorMessages.add("アカウント名を入力してください");
-    } else if (20 < account.length()) {
-        errorMessages.add("アカウント名は20文字以下で入力してください");
-    }
-
-    if (StringUtils.isBlank(password)) {
-        errorMessages.add("パスワードを入力してください");
-    }
-
-    if (!StringUtils.isBlank(email) && (50 < email.length())) {
-        errorMessages.add("メールアドレスは50文字以下で入力してください");
-    }
-
-    if (errorMessages.size() != 0) {
-        return false;
-    }
-    return true;
+		if (errorMessages.size() != 0) {
+			return false;
+		}
+		return true;
 	}
 }

@@ -60,7 +60,7 @@ public class SettingServlet extends HttpServlet {
 	}
 
 	/*doPOST()は入力画面でよく使われる。method=“POST”を指定したフォームに 入力したデータを
-	 * サーバーに転送する際に使用されます。実装課題①はここから始める気がする
+	 * サーバーに転送する際に使用されます。
 	 * */
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -132,6 +132,15 @@ public class SettingServlet extends HttpServlet {
 		String account = user.getAccount();
 		String email = user.getEmail();
 
+		//重複を確認する為の確認メソッドをここに呼び出したい。
+		User confirmAccount = new UserService().select(account);
+
+		//重複していたらlistの0番目が帰ってくる、していなかったらnullが帰ってくる。
+		if (confirmAccount != null)
+			;
+		{
+			errorMessages.add("アカウント名が重複しています");
+		}
 		//名前がnullや空でないときに、20文字を超えていたらエラーをadd
 		if (!StringUtils.isEmpty(name) && (20 < name.length())) {
 			errorMessages.add("名前は20文字以下で入力してください");
@@ -144,7 +153,6 @@ public class SettingServlet extends HttpServlet {
 		if (!StringUtils.isEmpty(email) && (50 < email.length())) {
 			errorMessages.add("メールアドレスは50文字以下で入力してください");
 		}
-
 		if (errorMessages.size() != 0) {
 			return false;
 		}
