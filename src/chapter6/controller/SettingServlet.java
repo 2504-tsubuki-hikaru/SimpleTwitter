@@ -136,10 +136,16 @@ public class SettingServlet extends HttpServlet {
 		//重複を確認する為の確認メソッドをここに呼び出したい。
 		User confirmAccount = new UserService().select(account);
 
+		int accountId = confirmAccount.getId();
+
 		//重複していたらlistの0番目が帰ってくる、していなかったらnullが帰ってくる。
 		//nullと自分のアカウント情報ではなかった時にエラーを表示する。
 		// 入力したアカウント名を表示
-		if (confirmAccount != null && (confirmAccount.equals(id))) {
+		// accountId→データベースから参照したid
+		// id→ログインしているユーザーのid
+		// この二つをどういう条件をしたいか
+		// 同じidかどうか確かめたい。
+		if (confirmAccount != null && accountId != id) {
 			errorMessages.add("すでに存在するアカウントです");
 		}
 		//名前がnullや空でないときに、20文字を超えていたらエラーをadd
