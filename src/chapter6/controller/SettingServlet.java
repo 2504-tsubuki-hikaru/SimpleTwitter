@@ -129,17 +129,20 @@ public class SettingServlet extends HttpServlet {
 				}.getClass().getEnclosingMethod().getName());
 
 		String name = user.getName();
+		//画面から入力したアカウント名
 		String account = user.getAccount();
 		String email = user.getEmail();
+
+		//ログイン後のアカウント名を変えずにその他を更新するようにしたい。
 
 		//重複を確認する為の確認メソッドをここに呼び出したい。
 		User confirmAccount = new UserService().select(account);
 
 		//重複していたらlistの0番目が帰ってくる、していなかったらnullが帰ってくる。
-		if (confirmAccount != null)
-			;
-		{
-			errorMessages.add("アカウント名が重複しています");
+		//nullと自分のアカウント情報ではなかった時にエラーを表示する。
+		// 入力したアカウント名を表示
+		if (confirmAccount != null && (confirmAccount.equals(account))) {
+			errorMessages.add("すでに存在するアカウントです");
 		}
 		//名前がnullや空でないときに、20文字を超えていたらエラーをadd
 		if (!StringUtils.isEmpty(name) && (20 < name.length())) {

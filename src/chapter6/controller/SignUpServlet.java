@@ -99,8 +99,8 @@ public class SignUpServlet extends HttpServlet {
 
 		User confirmAccount = new UserService().select(account);
 
-		if (confirmAccount != null); {
-			errorMessages.add("アカウント名が重複しています");
+		if (confirmAccount != null) {
+			errorMessages.add("すでに存在するアカウントです");
 		}
 
 		if (!StringUtils.isBlank(name) && (20 < name.length())) {

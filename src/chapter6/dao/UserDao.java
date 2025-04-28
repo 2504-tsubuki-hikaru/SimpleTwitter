@@ -246,19 +246,25 @@ public class UserDao {
 
 		PreparedStatement ps = null;
 		try {
+			//WHERE句を用いて参照するデータを指定している。バインド変数は"？"のところになる。
 			String sql = "SELECT * FROM users WHERE account = ?";
 
+			//prepareStatementにsql変数を引数にしてSQLに変換している。
+			//バインド変数のパラメーターセット（２行目）
 			ps = connection.prepareStatement(sql);
 			ps.setString(1, account);
 
 			ResultSet rs = ps.executeQuery();
-
+			//取得したアカウント名をusersに入れている。
 			List<User> users = toUsers(rs);
+
+			//users変数に何も入っていなければ「null」,入っていれば「重複」、それ以外なら
 			if (users.isEmpty()) {
 				return null;
 			} else if (2 <= users.size()) {
 				throw new IllegalStateException("ユーザーが重複しています");
 			} else {
+				//nullではなくリストの２番目でもない時にListの要素暗号0を返す。
 				return users.get(0);
 			}
 		} catch (SQLException e) {
