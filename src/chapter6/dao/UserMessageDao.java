@@ -64,6 +64,8 @@ public class UserMessageDao {
 			ResultSet rs = ps.executeQuery();
 			List<UserMessage> messages = toUserMessages(rs);
 			return messages;
+
+		//例外処理、構文エラー・接続切れなどのエラー処理をしている。
 		} catch (SQLException e) {
 			log.log(Level.SEVERE, new Object() {
 			}.getClass().getEnclosingClass().getName() + " : " + e.toString(), e);
@@ -98,4 +100,5 @@ public class UserMessageDao {
 			close(rs);
 		}
 	}
+	
 }

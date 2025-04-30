@@ -226,6 +226,8 @@ public class UserDao {
 
 			//・データ更新ならexecuteUpdate
 			int count = ps.executeUpdate();
+			/*count == 0 ということは、WHERE句で指定した id に
+			 * 一致するレコードが存在しなかったということ。*/
 			if (count == 0) {
 				log.log(Level.SEVERE, "更新対象のレコードが存在しません", new NoRowsUpdatedRuntimeException());
 				throw new NoRowsUpdatedRuntimeException();
@@ -246,7 +248,10 @@ public class UserDao {
 
 		PreparedStatement ps = null;
 		try {
-			//WHERE句を用いて参照するデータを指定している。バインド変数は"？"のところになる。
+			/*//WHERE句を用いて参照するデータを指定している。バインド変数は"？"のところになる。
+			WHERE accountはuserテーブルの中のアカウントのこと
+			？には引数のaccountを設定している。DBのアカウント名から引数のアカウント名があるか
+			データから参照している。*/
 			String sql = "SELECT * FROM users WHERE account = ?";
 
 			//prepareStatementにsql変数を引数にしてSQLに変換している。
@@ -254,8 +259,9 @@ public class UserDao {
 			ps = connection.prepareStatement(sql);
 			ps.setString(1, account);
 
+			//SQL文を実行した結果をrs変数に入れる。
 			ResultSet rs = ps.executeQuery();
-			//取得したアカウント名をusersに入れている。
+			//取得したリスト型のアカウント名をusersに入れている。
 			List<User> users = toUsers(rs);
 
 			//users変数に何も入っていなければ「null」,入っていれば「重複」、それ以外なら

@@ -50,9 +50,6 @@ public class TopServlet extends HttpServlet {
 			isShowMessageForm = true;
 		}
 
-		//変更点なのでコードの書き換えをするのかな
-		//ここを変更したら既存のdogetが使えないのではないのか？
-		//でもそもそもdogetメソッドって何をしているところだっけ？
 		String userId = request.getParameter("user_id");
 		List<UserMessage> messages = new MessageService().select(userId);
 

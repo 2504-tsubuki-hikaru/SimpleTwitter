@@ -59,9 +59,8 @@ public class SettingServlet extends HttpServlet {
 		request.getRequestDispatcher("setting.jsp").forward(request, response);
 	}
 
-	/*doPOST()は入力画面でよく使われる。method=“POST”を指定したフォームに 入力したデータを
-	 * サーバーに転送する際に使用されます。
-	 * */
+	/*doPOST()は入力画面でよく使われる。method=“POST”を指定したフォームに入力したデータを
+	 * サーバーに転送する際に使用されます。* */
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -144,7 +143,7 @@ public class SettingServlet extends HttpServlet {
 		// accountId→データベースから参照したid
 		// id→ログインしているユーザーのid
 		// この二つをどういう条件をしたいか
-		// 同じidかどうか確かめたい。
+		// 同じidかどうか確かめたい
 		if (confirmAccount != null && accountId != id) {
 			errorMessages.add("すでに存在するアカウントです");
 		}
