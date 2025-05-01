@@ -100,5 +100,4 @@ public class UserMessageDao {
 			close(rs);
 		}
 	}
-	
 }

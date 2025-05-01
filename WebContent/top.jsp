@@ -58,8 +58,7 @@
 					<br /> <input type="submit" value="つぶやく">（140文字まで）
 				</form>
 			</c:if>
-		</div>
-		<div class="messages">
+		</div>form<div class="messages">
 			<c:forEach items="${messages}" var="message">
 				<div class="message">
 					<div class="account-name">
@@ -78,7 +77,7 @@
 					</div>
 						<form action="deleteMessage" method="post">
 						  <input type="submit" value="削除">
-						  <input type="hidden" name="massageid" value="${message.id}">
+						  <input type="hidden" name="messageid" value="${message.id}">
 						</form>
 				</div>
 			</c:forEach>

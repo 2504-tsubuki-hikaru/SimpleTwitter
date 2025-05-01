@@ -97,4 +97,17 @@ public class MessageService {
 			close(connection);
 		}
 	}
+
+	public void delete(int messageid) {
+
+		log.info(new Object() {
+		}.getClass().getEnclosingClass().getName() +
+				" : " + new Object() {
+				}.getClass().getEnclosingMethod().getName());
+
+		Connection connection = null;
+
+		 new MessageDao().delete( connection, messageid);
+		 return;
+	}
 }
