@@ -107,7 +107,27 @@ public class MessageService {
 
 		Connection connection = null;
 
-		 new MessageDao().delete( connection, messageid);
-		 return;
+		 try {
+			 //getConnectionメソッドはどのデータベースにデータを送るかを設定している。
+			connection = getConnection();
+			new MessageDao().delete(connection, messageid);
+			//commitメソッドの処理でエラーがあればcatchに行くようになっている。
+			commit(connection);
+
+			return;
+		} catch (RuntimeException e) {
+			rollback(connection);
+			log.log(Level.SEVERE, new Object() {
+			}.getClass().getEnclosingClass().getName() + " : " + e.toString(), e);
+			throw e;
+		} catch (Error e) {
+			rollback(connection);
+			log.log(Level.SEVERE, new Object() {
+			}.getClass().getEnclosingClass().getName() + " : " + e.toString(), e);
+			throw e;
+		} finally {
+			close(connection);
+		}
 	}
 }
+

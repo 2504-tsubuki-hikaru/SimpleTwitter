@@ -73,7 +73,7 @@ public class SettingServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		List<String> errorMessages = new ArrayList<String>();
 
-		//送られてきたデータをuserに入れる
+		//引数で送られてきたデータをuserに入れる
 		User user = getUser(request);
 		//エラーチェックをしている
 		if (isValid(user, errorMessages)) {

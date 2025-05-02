@@ -5,13 +5,13 @@
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>簡易Twitter</title>
-<link href="./css/style.css" rel="stylesheet" type="text/css">
-</head>
-<body>
-	<div class="main-contents">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<title>簡易Twitter</title>
+		<link href="./css/style.css" rel="stylesheet" type="text/css">
+	</head>
+	<body>
+		<div class="main-contents">
 		<div class="header">
 			<c:if test="${ empty loginUser }">
 				<a href="login">ログイン</a>
@@ -58,7 +58,7 @@
 					<br /> <input type="submit" value="つぶやく">（140文字まで）
 				</form>
 			</c:if>
-		</div>form<div class="messages">
+		</div><div class="messages">
 			<c:forEach items="${messages}" var="message">
 				<div class="message">
 					<div class="account-name">
@@ -75,9 +75,15 @@
 						<fmt:formatDate value="${message.createdDate}"
 							pattern="yyyy/MM/dd HH:mm:ss" />
 					</div>
+						<!-- deleteMessageはDeleteMessageServletクラスの16行目の/deleteMessage -->
+						<!-- でデータを送る先を決めている。methodはなんのメソッドを使うか指定 -->
 						<form action="deleteMessage" method="post">
 						  <input type="submit" value="削除">
 						  <input type="hidden" name="messageid" value="${message.id}">
+						</form>
+							<form action="edit" method="post">
+						  <input type="submit" value="編集">
+						  <input type="hidden" name="messagetext" value="${message.text}">
 						</form>
 				</div>
 			</c:forEach>

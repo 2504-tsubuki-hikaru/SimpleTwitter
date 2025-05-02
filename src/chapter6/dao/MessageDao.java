@@ -72,7 +72,7 @@ public class MessageDao {
     	PreparedStatement ps = null;
         try {
             StringBuilder sql = new StringBuilder();
-            sql.append("DELETE FROM comments WHERE messageid = ? ");
+            sql.append("DELETE FROM messages WHERE id = ? ");
 
             //toString=オブジェクトを文字列に変換するメソッド
             ps = connection.prepareStatement(sql.toString());
@@ -83,8 +83,35 @@ public class MessageDao {
         } catch (SQLException e) {
     		log.log(Level.SEVERE, new Object(){}.getClass().getEnclosingClass().getName() + " : " + e.toString(), e);
                 throw new SQLRuntimeException(e);
-            } finally {
+        } finally {
                 close(ps);
-            }
-        }
+        }     
+    }
+    
+    public String select(Conection connection, String messagetext) {
+    	
+    	log.info(new Object(){}.getClass().getEnclosingClass().getName() +
+    	        " : " + new Object(){}.getClass().getEnclosingMethod().getName());
+    	
+    	PreparedStatement ps = null;
+    	 try {
+             StringBuilder sql = new StringBuilder();
+             sql.append("SELECT FROM messages WHERE id = ? ");
+             
+             //toString=オブジェクトを文字列に変換するメソッド
+             ps = connection.prepareStatement(sql.toString());
+             
+             //つぶやきだけだと同じつぶやきが合ったときに何件かヒットしてしまうので
+             //つぶやきのIDを参照したい。
+             ps.setString(1, messagetext);
+             
+             ps.executeQuery();
+    	 } catch (SQLException e) {
+     		log.log(Level.SEVERE, new Object(){}.getClass().getEnclosingClass().getName() + " : " + e.toString(), e);
+                 throw new SQLRuntimeException(e);
+         } finally {
+                 close(ps);
+         }     
+
+    }
 }
