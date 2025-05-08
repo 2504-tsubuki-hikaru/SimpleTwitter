@@ -51,10 +51,12 @@
 		</c:if>
 
 		<div class="form-area">
+			<!-- isShowMessageFormが	trueの場合(ログインしている時)につぶやきのフォームを表示 -->
 			<c:if test="${ isShowMessageForm }">
 				<form action="message" method="post">
 					いま、どうしてる？<br />
 					<textarea name="text" cols="100" rows="5" class="tweet-box"></textarea>
+					<!-- brタグは改行のこと -->
 					<br /> <input type="submit" value="つぶやく">（140文字まで）
 				</form>
 			</c:if>
@@ -69,22 +71,24 @@
 						</span> <span class="name"><c:out value="${message.name}" /></span>
 					</div>
 					<div class="text">
-						<c:out value="${message.text}" />
+					<pre><c:out value="${message.text}" /></pre>
 					</div>
 					<div class="date">
 						<fmt:formatDate value="${message.createdDate}"
 							pattern="yyyy/MM/dd HH:mm:ss" />
 					</div>
+					<c:if test="${ isShowMessageForm }">
 						<!-- deleteMessageはDeleteMessageServletクラスの16行目の/deleteMessage -->
 						<!-- でデータを送る先を決めている。methodはなんのメソッドを使うか指定 -->
 						<form action="deleteMessage" method="post">
 						  <input type="submit" value="削除">
 						  <input type="hidden" name="messageid" value="${message.id}">
 						</form>
-							<form action="edit" method="post">
+							<form action="edit" method="get">
 						  <input type="submit" value="編集">
-						  <input type="hidden" name="messagetext" value="${message.text}">
+						  <input type="hidden" name="messageid" value="${message.id}">
 						</form>
+					</c:if>
 				</div>
 			</c:forEach>
 		</div>

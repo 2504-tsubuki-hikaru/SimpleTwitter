@@ -44,15 +44,22 @@ public class TopServlet extends HttpServlet {
 
 		/*//セッションからログインユーザーを取得し、ログインユーザーのオブジェクトが取得できた
 		 * 場合(nullではなかった場合)には変数isShowMessageFormにtrueを設定するというコード。*/
+		//変数の宣言、falseをセットしている。
 		boolean isShowMessageForm = false;
+		//ログイン情報を取得、LoginServletでログイン情報をセッションに格納しているので、
+		
 		User user = (User) request.getSession().getAttribute("loginUser");
+		//ログインしていたらteueになり、つぶやきフォームを表示（top.jsp)
 		if (user != null) {
 			isShowMessageForm = true;
 		}
-
+		//リンクが押された時にIDでつぶやきを絞る為に、top.jspからuser_idを取得
 		String userId = request.getParameter("user_id");
+		/*セレクトメソッドを呼び出し（引数userId）、Daoから帰ってきた情報を
+		List<UserMessage> messagesに格納している*/
 		List<UserMessage> messages = new MessageService().select(userId);
 
+		//requestにセットしてtop.jspにforward(request, response)している。
 		request.setAttribute("messages", messages);
 		request.setAttribute("isShowMessageForm", isShowMessageForm);
 		request.getRequestDispatcher("/top.jsp").forward(request, response);

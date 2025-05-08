@@ -62,6 +62,8 @@ public class UserMessageDao {
 				ps.setInt(1, id);
 			}
 			ResultSet rs = ps.executeQuery();
+
+			//ResultSet型→UserMessage型に変換、List<UserMessage>型の変数に格納。
 			List<UserMessage> messages = toUserMessages(rs);
 			return messages;
 
@@ -75,6 +77,7 @@ public class UserMessageDao {
 		}
 	}
 
+	//ResultSet型→UserMessage型Daoからサービスに戻したい（復習ドリル参照）
 	private List<UserMessage> toUserMessages(ResultSet rs) throws SQLException {
 
 		log.info(new Object() {

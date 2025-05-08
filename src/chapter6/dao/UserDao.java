@@ -98,7 +98,7 @@ public class UserDao {
 			ps.setString(2, accountOrEmail);
 			ps.setString(3, password);
 
-			/*　executeQuery()…SQＬ文(言語)を実行("SELECT * FR～～)
+			/*executeQuery()…SQＬ文(言語)を実行("SELECT * FR～～)
 			 * ResultSet型の 変数rs…executeQuery()した結果（DBから取得したデータ）を格納*/
 			ResultSet rs = ps.executeQuery();
 

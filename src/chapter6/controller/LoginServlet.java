@@ -62,9 +62,14 @@ public class LoginServlet extends HttpServlet {
              request.getRequestDispatcher("login.jsp").forward(request, response);
              return;
          }
-
+         //ログインユーザー情報をsessionに格納している。
          HttpSession session = request.getSession();
+         /*セッションの無効化をするまでloginUserが使える、userの中にはログインした時に取得した
+         ユーザー情報が入っている。*/
+         
+         //sessionにセットしている。userログインユーザーの情報を(accountOrEmail, password)
          session.setAttribute("loginUser", user);
+         //("./")=TopServletに遷移
          response.sendRedirect("./");
      }
  }

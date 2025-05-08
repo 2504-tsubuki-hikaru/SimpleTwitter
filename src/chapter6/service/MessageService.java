@@ -129,5 +129,67 @@ public class MessageService {
 			close(connection);
 		}
 	}
-}
 
+	public Message select(int messageId) {
+
+		log.info(new Object() {
+		}.getClass().getEnclosingClass().getName() +
+				" : " + new Object() {
+				}.getClass().getEnclosingMethod().getName());
+
+		Connection connection = null;
+		 try {
+			 //getConnectionメソッドはどのデータベースにデータを送るかを設定している。
+			connection = getConnection();
+			Message messages = new MessageDao().select(connection, messageId);
+
+			return messages;
+
+		//例外処理
+		} catch (RuntimeException e) {
+		rollback(connection);
+		log.log(Level.SEVERE, new Object() {
+		}.getClass().getEnclosingClass().getName() + " : " + e.toString(), e);
+		throw e;
+		} catch (Error e) {
+		rollback(connection);
+		log.log(Level.SEVERE, new Object() {
+		}.getClass().getEnclosingClass().getName() + " : " + e.toString(), e);
+		throw e;
+		} finally {
+		close(connection);
+		}
+	}
+
+	public void update(Message message) {
+
+		log.info(new Object() {
+		}.getClass().getEnclosingClass().getName() +
+				" : " + new Object() {
+				}.getClass().getEnclosingMethod().getName());
+
+		Connection connection = null;
+
+		 try {
+			 //getConnectionメソッドはどのデータベースにデータを送るかを設定している。
+			connection = getConnection();
+			new MessageDao().update(connection, message);
+			//commitメソッドの処理でエラーがあればcatchに行くようになっている。
+			commit(connection);
+
+			return;
+		} catch (RuntimeException e) {
+			rollback(connection);
+			log.log(Level.SEVERE, new Object() {
+			}.getClass().getEnclosingClass().getName() + " : " + e.toString(), e);
+			throw e;
+		} catch (Error e) {
+			rollback(connection);
+			log.log(Level.SEVERE, new Object() {
+			}.getClass().getEnclosingClass().getName() + " : " + e.toString(), e);
+			throw e;
+		} finally {
+			close(connection);
+		}
+	}
+}
