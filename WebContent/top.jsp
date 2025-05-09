@@ -80,6 +80,7 @@
 					<c:if test="${ isShowMessageForm }">
 						<!-- deleteMessageはDeleteMessageServletクラスの16行目の/deleteMessage -->
 						<!-- でデータを送る先を決めている。methodはなんのメソッドを使うか指定 -->
+						<c:if test="${ empty loginUser }">
 						<form action="deleteMessage" method="post">
 						  <input type="submit" value="削除">
 						  <input type="hidden" name="messageid" value="${message.id}">
@@ -88,6 +89,7 @@
 						  <input type="submit" value="編集">
 						  <input type="hidden" name="messageid" value="${message.id}">
 						</form>
+						</c:if>
 					</c:if>
 				</div>
 			</c:forEach>

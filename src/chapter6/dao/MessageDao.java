@@ -140,11 +140,16 @@ public class MessageDao {
              //つぶやきのIDを参照したい。
              ps.setInt(1, messageId);
 
+             //参照した結果nullだったら（0件）エラーをかえす
+
              //参照したデータを格納したい。
              ResultSet rs = ps.executeQuery();
  			List<Message> messages = toMessages(rs);
 
  			//Listだから変数.get(要素番号)で値を取得
+ 			if (messages.isEmpty()) {
+				return null;
+ 			}
  			return messages.get(0);
 
     	 } catch (SQLException e) {
@@ -171,7 +176,6 @@ public class MessageDao {
 				message.setText(rs.getString("text"));
 				message.setUserId(rs.getInt("user_id"));
 				message.setCreatedDate(rs.getTimestamp("created_date"));
-
 				messages.add(message);
 			}
 			return messages;
