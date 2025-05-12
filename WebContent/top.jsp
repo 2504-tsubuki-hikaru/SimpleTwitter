@@ -62,7 +62,7 @@
 			</c:if>
 		</div>
 		<div class="messages">
-			<c:forEach items="${messages}" var="message">
+		<c:forEach items="${messages}" var="message">
 				<div class="message">
 					<div class="account-name">
 						<span class="account"> <a
@@ -71,7 +71,7 @@
 						</a>
 						</span> <span class="name"><c:out value="${message.name}" /></span>
 					</div>
-					<div class="text">
+			<div class="text">
 						<pre>
 							<c:out value="${message.text}" />
 						</pre>
@@ -79,24 +79,24 @@
 					<div class="date">
 						<fmt:formatDate value="${message.createdDate}"
 							pattern="yyyy/MM/dd HH:mm:ss" />
-					</div>
-					<c:if test="${ isShowMessageForm }">
-						<!-- deleteMessageはDeleteMessageServletクラスの16行目の/deleteMessage -->
-						<!-- でデータを送る先を決めている。methodはなんのメソッドを使うか指定 -->
-						<!-- ログインidとつぶやきのidが同じな場合のみボタンを表示する -->
-						<c:if test="${ loginUser.id == message.userId }">
-							<form action="deleteMessage" method="post">
-								<input type="submit" value="削除"> <input type="hidden"
-									name="messageid" value="${message.id}">
-							</form>
-							<form action="edit" method="get">
-								<input type="submit" value="編集"> <input type="hidden"
-									name="messageid" value="${message.id}">
-							</form>
-						</c:if>
-					</c:if>
-				</div>
-			</c:forEach>
+		</div>
+		<c:if test="${ isShowMessageForm }">
+			<!-- deleteMessageはDeleteMessageServletクラスの16行目の/deleteMessage -->
+			<!-- でデータを送る先を決めている。methodはなんのメソッドを使うか指定 -->
+			<!-- ログインidとつぶやきのidが同じな場合のみボタンを表示する -->
+			<c:if test="${ loginUser.id == message.userId }">
+				<form action="deleteMessage" method="post">
+					<input type="submit" value="削除"> <input type="hidden"
+					name="messageid" value="${message.id}">
+				</form>
+					<form action="edit" method="get">
+					<input type="submit" value="編集">
+					<input type="hidden"name="messageid" value="${message.id}">
+				</form>
+			</c:if>
+		</c:if>
+		</div>
+		</c:forEach>
 		</div>
 	</div>
 	<div class="copyright">Copyright(c)YourName</div>
