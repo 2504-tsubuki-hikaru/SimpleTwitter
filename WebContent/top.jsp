@@ -5,13 +5,13 @@
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-		<title>簡易Twitter</title>
-		<link href="./css/style.css" rel="stylesheet" type="text/css">
-	</head>
-	<body>
-		<div class="main-contents">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>簡易Twitter</title>
+<link href="./css/style.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+	<div class="main-contents">
 		<div class="header">
 			<c:if test="${ empty loginUser }">
 				<a href="login">ログイン</a>
@@ -60,18 +60,21 @@
 					<br /> <input type="submit" value="つぶやく">（140文字まで）
 				</form>
 			</c:if>
-		</div><div class="messages">
+		</div>
+		<div class="messages">
 			<c:forEach items="${messages}" var="message">
 				<div class="message">
 					<div class="account-name">
-						<span class="account">
-						<a href="./?user_id=<c:out value="${message.userId}"/> ">
-							<c:out value="${message.account}" />
+						<span class="account"> <a
+							href="./?user_id=<c:out value="${message.userId}"/> "> <c:out
+									value="${message.account}" />
 						</a>
 						</span> <span class="name"><c:out value="${message.name}" /></span>
 					</div>
 					<div class="text">
-					<pre><c:out value="${message.text}" /></pre>
+						<pre>
+							<c:out value="${message.text}" />
+						</pre>
 					</div>
 					<div class="date">
 						<fmt:formatDate value="${message.createdDate}"
@@ -80,15 +83,16 @@
 					<c:if test="${ isShowMessageForm }">
 						<!-- deleteMessageはDeleteMessageServletクラスの16行目の/deleteMessage -->
 						<!-- でデータを送る先を決めている。methodはなんのメソッドを使うか指定 -->
-						<c:if test="${ empty loginUser }">
-						<form action="deleteMessage" method="post">
-						  <input type="submit" value="削除">
-						  <input type="hidden" name="messageid" value="${message.id}">
-						</form>
+						<!-- ログインidとつぶやきのidが同じな場合のみボタンを表示する -->
+						<c:if test="${ loginUser.id == message.userId }">
+							<form action="deleteMessage" method="post">
+								<input type="submit" value="削除"> <input type="hidden"
+									name="messageid" value="${message.id}">
+							</form>
 							<form action="edit" method="get">
-						  <input type="submit" value="編集">
-						  <input type="hidden" name="messageid" value="${message.id}">
-						</form>
+								<input type="submit" value="編集"> <input type="hidden"
+									name="messageid" value="${message.id}">
+							</form>
 						</c:if>
 					</c:if>
 				</div>

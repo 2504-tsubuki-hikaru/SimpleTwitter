@@ -43,35 +43,41 @@ public class MessageServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws IOException, ServletException {
 
-	  log.info(new Object(){}.getClass().getEnclosingClass().getName() +
-        " : " + new Object(){}.getClass().getEnclosingMethod().getName());
+    	log.info(new Object(){}.getClass().getEnclosingClass().getName() +
+    		" : " + new Object(){}.getClass().getEnclosingMethod().getName());
 
-        HttpSession session = request.getSession();
-        List<String> errorMessages = new ArrayList<String>();
+		//セッションからユーザーの情報を取得（loginUserをセッションから取得）
+		HttpSession session = request.getSession();
+		List<String> errorMessages = new ArrayList<String>();
 
-        String text = request.getParameter("text");
-        if (!isValid(text, errorMessages)) {
-            session.setAttribute("errorMessages", errorMessages);
-            response.sendRedirect("./");
-            return;
-        }
+		//入力フォームで送信されたつぶやきを取得し、text変数に格納(top.jspで設定している、getParameter()でtextを取得)
+		String text = request.getParameter("text");
+		//isValidメソッドでエラーがあれば、エラーメッセージをセッションにセットしてtop.jspにリダイレクト
+		if (!isValid(text, errorMessages)) {
+			session.setAttribute("errorMessages", errorMessages);
+			response.sendRedirect("./");
+			return;
+		}
 
-        Message message = new Message();
-        message.setText(text);
+		Message message = new Message();
+		//メッセージ型のsetTextメソッドを使って、textをセット
+		message.setText(text);
 
-        User user = (User) session.getAttribute("loginUser");
-        message.setUserId(user.getId());
+		//セッションからログインユーザーの情報を取得し、Userにidを格納する。
+		//これをすることでつぶやきがどのユーザ―の物か判断できる。
+		User user = (User) session.getAttribute("loginUser");
+		message.setUserId(user.getId());
 
-        new MessageService().insert(message);
+		new MessageService().insert(message);
 
-        /*top.jspに遷移*/
-        response.sendRedirect("./");
-    }
+		/*top.jspに遷移*/
+		response.sendRedirect("./");
+	}
 
     private boolean isValid(String text, List<String> errorMessages) {
 
-	  log.info(new Object(){}.getClass().getEnclosingClass().getName() +
-        " : " + new Object(){}.getClass().getEnclosingMethod().getName());
+    	log.info(new Object(){}.getClass().getEnclosingClass().getName() +
+    		" : " + new Object(){}.getClass().getEnclosingMethod().getName());
 
         if (StringUtils.isBlank(text)) {
             errorMessages.add("メッセージを入力してください");

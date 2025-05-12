@@ -37,17 +37,15 @@ public class TopServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException {
 
-		log.info(new Object() {
-		}.getClass().getEnclosingClass().getName() +
-				" : " + new Object() {
-				}.getClass().getEnclosingMethod().getName());
+		log.info(new Object(){}.getClass().getEnclosingClass().getName() +
+		        " : " + new Object(){}.getClass().getEnclosingMethod().getName());
 
 		/*//セッションからログインユーザーを取得し、ログインユーザーのオブジェクトが取得できた
 		 * 場合(nullではなかった場合)には変数isShowMessageFormにtrueを設定するというコード。*/
 		//変数の宣言、falseをセットしている。
 		boolean isShowMessageForm = false;
 		//ログイン情報を取得、LoginServletでログイン情報をセッションに格納しているので、
-		
+
 		User user = (User) request.getSession().getAttribute("loginUser");
 		//ログインしていたらteueになり、つぶやきフォームを表示（top.jsp)
 		if (user != null) {

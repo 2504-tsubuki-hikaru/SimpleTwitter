@@ -40,6 +40,7 @@ public class LoginServlet extends HttpServlet {
  	  log.info(new Object(){}.getClass().getEnclosingClass().getName() +
          " : " + new Object(){}.getClass().getEnclosingMethod().getName());
 
+ 	  		//ユーザーがログインページにアクセスしたときにtop.jspを表示
          request.getRequestDispatcher("login.jsp").forward(request, response);
      }
 
@@ -50,11 +51,13 @@ public class LoginServlet extends HttpServlet {
  	  log.info(new Object(){}.getClass().getEnclosingClass().getName() +
          " : " + new Object(){}.getClass().getEnclosingMethod().getName());
 
+ 	  	//入力フォームから送信されたアカウントかメールアドレスとパスワードを取得し変数に格納
          String accountOrEmail = request.getParameter("accountOrEmail");
          String password = request.getParameter("password");
 
+         //DBからログイン情報を取得し(SELECTでデータの参照)、User型のuser変数に格納
          User user = new UserService().select(accountOrEmail, password);
-         /*select結果がnullの場合、ログインに失敗しましたをセットしフォワード*/
+         //select結果がnullの場合、ログインに失敗しましたをセットしフォワード
          if (user == null) {
              List<String> errorMessages = new ArrayList<String>();
              errorMessages.add("ログインに失敗しました");

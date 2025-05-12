@@ -72,24 +72,25 @@ public class MessageDao {
     	log.info(new Object(){}.getClass().getEnclosingClass().getName() +
     	        " : " + new Object(){}.getClass().getEnclosingMethod().getName());
 
-    	PreparedStatement ps = null;
-        try {
-            StringBuilder sql = new StringBuilder();
-            sql.append("DELETE FROM messages WHERE id = ? ");
+		PreparedStatement ps = null;
+		try {
+			StringBuilder sql = new StringBuilder();
+			sql.append("DELETE FROM messages WHERE id = ? ");
 
-            //toString=オブジェクトを文字列に変換するメソッド
-            ps = connection.prepareStatement(sql.toString());
+			//toString=オブジェクトを文字列に変換するメソッド
+			ps = connection.prepareStatement(sql.toString());
 
-            ps.setInt(1, messageid);
+			ps.setInt(1, messageid);
 
-            ps.executeUpdate();
-        } catch (SQLException e) {
-    		log.log(Level.SEVERE, new Object(){}.getClass().getEnclosingClass().getName() + " : " + e.toString(), e);
-                throw new SQLRuntimeException(e);
-        } finally {
-                close(ps);
-        }
-    }
+			ps.executeUpdate();
+		} catch (SQLException e) {
+			log.log(Level.SEVERE, new Object() {
+			}.getClass().getEnclosingClass().getName() + " : " + e.toString(), e);
+			throw new SQLRuntimeException(e);
+		} finally {
+			close(ps);
+		}
+	}
 
     public void update(Connection connection, Message message) {
 
@@ -128,37 +129,38 @@ public class MessageDao {
     	log.info(new Object(){}.getClass().getEnclosingClass().getName() +
     	        " : " + new Object(){}.getClass().getEnclosingMethod().getName());
 
-    	PreparedStatement ps = null;
-    	 try {
-    		 //WHERE idはデータベース内のid、？は引数のid
-             StringBuilder sql = new StringBuilder();
-             sql.append("SELECT * FROM messages WHERE id = ? ");
+		PreparedStatement ps = null;
+		try {
+			//WHERE idはデータベース内のid、？は引数のid
+			StringBuilder sql = new StringBuilder();
+			sql.append("SELECT * FROM messages WHERE id = ? ");
 
-             //toString=オブジェクトを文字列に変換するメソッド
-             ps = connection.prepareStatement(sql.toString());
+			//toString=オブジェクトを文字列に変換するメソッド
+			ps = connection.prepareStatement(sql.toString());
 
-             //つぶやきのIDを参照したい。
-             ps.setInt(1, messageId);
+			//つぶやきのIDを参照したい。
+			ps.setInt(1, messageId);
 
-             //参照した結果nullだったら（0件）エラーをかえす
+			//参照した結果nullだったら（0件）エラーをかえす
 
-             //参照したデータを格納したい。
-             ResultSet rs = ps.executeQuery();
- 			List<Message> messages = toMessages(rs);
+			//参照したデータを格納したい。
+			ResultSet rs = ps.executeQuery();
+			List<Message> messages = toMessages(rs);
 
- 			//Listだから変数.get(要素番号)で値を取得
- 			if (messages.isEmpty()) {
+			//Listだから変数.get(要素番号)で値を取得
+			if (messages.isEmpty()) {
 				return null;
- 			}
- 			return messages.get(0);
+			}
+			return messages.get(0);
 
-    	 } catch (SQLException e) {
-     		log.log(Level.SEVERE, new Object(){}.getClass().getEnclosingClass().getName() + " : " + e.toString(), e);
-                 throw new SQLRuntimeException(e);
-         } finally {
-                 close(ps);
-         }
-    }
+		} catch (SQLException e) {
+			log.log(Level.SEVERE, new Object() {
+			}.getClass().getEnclosingClass().getName() + " : " + e.toString(), e);
+			throw new SQLRuntimeException(e);
+		} finally {
+			close(ps);
+		}
+	}
 
     //ResultSet型→Message型Daoからサービスに戻したい（復習ドリル参照）
     private List<Message> toMessages(ResultSet rs) throws SQLException {

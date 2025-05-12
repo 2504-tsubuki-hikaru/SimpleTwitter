@@ -107,8 +107,8 @@ public class MessageService {
 
 		Connection connection = null;
 
-		 try {
-			 //getConnectionメソッドはどのデータベースにデータを送るかを設定している。
+		try {
+			//getConnectionメソッドはどのデータベースにデータを送るかを設定している。
 			connection = getConnection();
 			new MessageDao().delete(connection, messageid);
 			//commitメソッドの処理でエラーがあればcatchに行くようになっている。
@@ -138,8 +138,8 @@ public class MessageService {
 				}.getClass().getEnclosingMethod().getName());
 
 		Connection connection = null;
-		 try {
-			 //getConnectionメソッドはどのデータベースにデータを送るかを設定している。
+		try {
+			//getConnectionメソッドはどのデータベースにデータを送るかを設定している。
 			connection = getConnection();
 			Message messages = new MessageDao().select(connection, messageId);
 
@@ -170,8 +170,8 @@ public class MessageService {
 
 		Connection connection = null;
 
-		 try {
-			 //getConnectionメソッドはどのデータベースにデータを送るかを設定している。
+		try {
+			//getConnectionメソッドはどのデータベースにデータを送るかを設定している。
 			connection = getConnection();
 			new MessageDao().update(connection, message);
 			//commitメソッドの処理でエラーがあればcatchに行くようになっている。
