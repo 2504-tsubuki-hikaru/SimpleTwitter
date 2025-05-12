@@ -67,7 +67,7 @@ public class MessageDao {
         }
     }
 
-    public void delete(Connection connection, int messageid) {
+    public void delete(Connection connection, int messageId) {
 
     	log.info(new Object(){}.getClass().getEnclosingClass().getName() +
     	        " : " + new Object(){}.getClass().getEnclosingMethod().getName());
@@ -80,7 +80,7 @@ public class MessageDao {
 			//toString=オブジェクトを文字列に変換するメソッド
 			ps = connection.prepareStatement(sql.toString());
 
-			ps.setInt(1, messageid);
+			ps.setInt(1, messageId);
 
 			ps.executeUpdate();
 		} catch (SQLException e) {

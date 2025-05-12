@@ -41,10 +41,10 @@ public class DeleteMessageServlet extends HttpServlet {
 
 		//ここでjspで表記した"massageid"をgetParameterを使って扱えるようにする。
 		String number = request.getParameter("messageid");
-		int messageid = Integer.parseInt(number);
+		int messageId = Integer.parseInt(number);
 
 		//messageidをMessageServiceのdeleteメソッドに引数として渡したい。
-		new MessageService().delete(messageid);
+		new MessageService().delete(messageId);
 
 		/*top.jspに遷移*/
 		response.sendRedirect("./");

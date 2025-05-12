@@ -23,7 +23,7 @@
             </c:if>
 
             <form action="signup" method="post"><br />
-                <label for="name">名前</label>
+            	<label for="name">名前</label>
                 <input name="name" id="name" />（名前はあなたの公開プロフィールに表示されます）<br />
 
                 <label for="account">アカウント名</label>
@@ -40,8 +40,7 @@
                 <input type="submit" value="登録" /> <br />
                 <a href="./">戻る</a>
             </form>
-
             <div class="copyright">Copyright(c)Your Name</div>
-        </div>
+		 </div>
     </body>
 </html>

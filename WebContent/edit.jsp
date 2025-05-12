@@ -55,8 +55,8 @@
 					<textarea name="text" cols="100" rows="5" class="tweet-box"><c:out
 							value="${message.text}" /></textarea>
 				</pre>
-				<br /> <input type="submit" value="更新">（140文字まで） <input
-					type="hidden" name="messageid" value="${message.id}">
+				<br /> <input type="submit" value="更新">（140文字まで）
+				 <input type="hidden" name="messageid" value="${message.id}">
 			</form>
 		</div>
 	</div>

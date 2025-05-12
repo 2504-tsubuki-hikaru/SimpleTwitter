@@ -98,7 +98,7 @@ public class MessageService {
 		}
 	}
 
-	public void delete(int messageid) {
+	public void delete(int messageId) {
 
 		log.info(new Object() {
 		}.getClass().getEnclosingClass().getName() +
@@ -110,7 +110,7 @@ public class MessageService {
 		try {
 			//getConnectionメソッドはどのデータベースにデータを送るかを設定している。
 			connection = getConnection();
-			new MessageDao().delete(connection, messageid);
+			new MessageDao().delete(connection, messageId);
 			//commitメソッドの処理でエラーがあればcatchに行くようになっている。
 			commit(connection);
 
