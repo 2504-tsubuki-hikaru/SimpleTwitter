@@ -80,6 +80,14 @@
 						<fmt:formatDate value="${message.createdDate}"
 							pattern="yyyy/MM/dd HH:mm:ss" />
 					</div>
+					<form action="comment" method="post">
+						<textarea name="text" cols="100" rows="5" class="tweet-box"></textarea>
+						<!-- brタグは改行のこと -->
+						<br />
+						<input type="submit" value="返信">(140文字まで)
+						<input type="hidden"name="text" value="${message.text}">
+						<input type="hidden"name="messageid" value="${message.id}">
+					</form>
 				<c:if test="${ isShowMessageForm }">
 					<!-- deleteMessageはDeleteMessageServletクラスの16行目の/deleteMessage -->
 					<!-- でデータを送る先を決めている。methodはなんのメソッドを使うか指定 -->
@@ -91,6 +99,9 @@
 						</form>
 						<form action="edit" method="get">
 							<input type="submit" value="編集">
+							<input type="hidden"name="messageid" value="${message.id}">
+						</form>
+						<form action="comment" method="post">
 							<input type="hidden"name="messageid" value="${message.id}">
 						</form>
 					</c:if>

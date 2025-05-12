@@ -39,7 +39,9 @@ public class MessageService {
 		}.getClass().getEnclosingClass().getName() +
 				" : " + new Object() {
 				}.getClass().getEnclosingMethod().getName());
+		
 		Connection connection = null;
+		
 		try {
 			connection = getConnection();
 			new MessageDao().insert(connection, message);
