@@ -61,7 +61,28 @@
 				</form>
 			</c:if>
 		</div>
-		<div class="messages">
+<!-- 返信内容の表示 -->
+		<c:forEach items="${comments}" var="comment">
+			<c:if test="${messageid == comment}">
+				<div class="comment">
+					<span class="account"> <a
+						href="./?user_id=<c:out value="${message.userId}"/> ">
+						<c:out value="${message.account}" />
+						</a>
+					</span> <span class="name"><c:out value="${message.name}" /></span>
+				</div>
+					<div class="text">
+						<pre>
+							<c:out value="${message.text}" />
+						</pre>
+					</div>
+					<div class="date">
+						<fmt:formatDate value="${message.createdDate}"
+							pattern="yyyy/MM/dd HH:mm:ss" />
+					</div>
+			</c:if>
+		</c:forEach>
+<!-- メッセージ表示部 -->
 		<c:forEach items="${messages}" var="message">
 			<div class="message">
 				<div class="account-name">
@@ -80,15 +101,15 @@
 						<fmt:formatDate value="${message.createdDate}"
 							pattern="yyyy/MM/dd HH:mm:ss" />
 					</div>
+					<!-- サーブレットの送信先と送信の仕方 -->
 					<form action="comment" method="post">
 						<textarea name="text" cols="100" rows="5" class="tweet-box"></textarea>
 						<!-- brタグは改行のこと -->
 						<br />
+						<!-- 入力フォームでユーザーから入力情報を取得するためのタグ -->
 						<input type="submit" value="返信">(140文字まで)
-						<input type="hidden"name="text" value="${message.text}">
-						<input type="hidden"name="messageid" value="${message.id}">
+						<input type="hidden" name="messageid" value="${message.id}">
 					</form>
-				<c:if test="${ isShowMessageForm }">
 					<!-- deleteMessageはDeleteMessageServletクラスの16行目の/deleteMessage -->
 					<!-- でデータを送る先を決めている。methodはなんのメソッドを使うか指定 -->
 					<!-- ログインidとつぶやきのidが同じな場合のみボタンを表示する -->
@@ -101,15 +122,10 @@
 							<input type="submit" value="編集">
 							<input type="hidden"name="messageid" value="${message.id}">
 						</form>
-						<form action="comment" method="post">
-							<input type="hidden"name="messageid" value="${message.id}">
-						</form>
 					</c:if>
-				</c:if>
 			</div>
 		</c:forEach>
 		</div>
-	</div>
 	<div class="copyright">Copyright(c)YourName</div>
 </body>
 </html>
