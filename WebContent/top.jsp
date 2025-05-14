@@ -101,15 +101,6 @@
 						<fmt:formatDate value="${message.createdDate}"
 							pattern="yyyy/MM/dd HH:mm:ss" />
 					</div>
-					<!-- サーブレットの送信先と送信の仕方 -->
-					<form action="comment" method="post">
-						<textarea name="text" cols="100" rows="5" class="tweet-box"></textarea>
-						<!-- brタグは改行のこと -->
-						<br />
-						<!-- 入力フォームでユーザーから入力情報を取得するためのタグ -->
-						<input type="submit" value="返信">(140文字まで)
-						<input type="hidden" name="messageid" value="${message.id}">
-					</form>
 					<!-- deleteMessageはDeleteMessageServletクラスの16行目の/deleteMessage -->
 					<!-- でデータを送る先を決めている。methodはなんのメソッドを使うか指定 -->
 					<!-- ログインidとつぶやきのidが同じな場合のみボタンを表示する -->
@@ -123,6 +114,35 @@
 							<input type="hidden"name="messageid" value="${message.id}">
 						</form>
 					</c:if>
+					<c:forEach items="${comments}" var="comment">
+						<c:if test="${ message.id == comment.messageId }">
+							<div class="comment">
+								<span class="account">
+									<a href="./?user_id=<c:out value="${comment.userId}"/> ">
+										<c:out value="${message.account}" />
+									</a>
+								</span> <span class="name"><c:out value="${comment.name}" /></span>
+							</div>
+								<div class="text">
+								<pre>
+									<c:out value="${comment.text}" />
+								</pre>
+							</div>
+							<div class="date">
+								<fmt:formatDate value="${comment.createdDate}"
+									pattern="yyyy/MM/dd HH:mm:ss" />
+							</div>
+						</c:if>
+					</c:forEach>
+					<!-- サーブレットの送信先と送信の仕方 -->
+					<form action="comment" method="post">
+						<textarea name="text" cols="100" rows="5" class="tweet-box"></textarea>
+						<!-- brタグは改行のこと -->
+						<br />
+						<!-- 入力フォームでユーザーから入力情報を取得するためのタグ -->
+						<input type="submit" value="返信">(140文字まで)
+						<input type="hidden" name="messageid" value="${message.id}">
+					</form>
 			</div>
 		</c:forEach>
 		</div>

@@ -11,8 +11,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import chapter6.beans.User;
+import chapter6.beans.UserComment;
 import chapter6.beans.UserMessage;
 import chapter6.logging.InitApplication;
+import chapter6.service.CommentService;
 import chapter6.service.MessageService;
 
 @WebServlet(urlPatterns = { "/index.jsp" })
@@ -45,20 +47,25 @@ public class TopServlet extends HttpServlet {
 		//変数の宣言、falseをセットしている。
 		boolean isShowMessageForm = false;
 		//ログイン情報を取得、LoginServletでログイン情報をセッションに格納しているので、
-
 		User user = (User) request.getSession().getAttribute("loginUser");
 		//ログインしていたらteueになり、つぶやきフォームを表示（top.jsp)
 		if (user != null) {
 			isShowMessageForm = true;
 		}
+
 		//リンクが押された時にIDでつぶやきを絞る為に、top.jspからuser_idを取得
 		String userId = request.getParameter("user_id");
 		/*セレクトメソッドを呼び出し（引数userId）、Daoから帰ってきた情報を
 		List<UserMessage> messagesに格納している*/
 		List<UserMessage> messages = new MessageService().select(userId);
+		//引数がいらない
+		List<UserComment> comments= new CommentService().select(userId);
 
 		//requestにセットしてtop.jspにforward(request, response)している。
 		request.setAttribute("messages", messages);
+		request.setAttribute("isShowMessageForm", isShowMessageForm);
+		//リクエストに返信内容をセットする必要がある。
+		request.setAttribute("comments", comments);
 		request.setAttribute("isShowMessageForm", isShowMessageForm);
 		request.getRequestDispatcher("/top.jsp").forward(request, response);
 	}
