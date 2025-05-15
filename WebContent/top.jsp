@@ -49,7 +49,14 @@
 			</div>
 			<c:remove var="errorMessages" scope="session" />
 		</c:if>
-
+<!-- -->
+		<form action="./" method="get">
+			日付
+			<input type="date" name="start" value="${start}">
+			~
+			<input type="date" name="end" value="${end}">
+			<input type="submit" value="絞込">
+		</form>
 		<div class="form-area">
 			<!-- isShowMessageFormが	trueの場合(ログインしている時)につぶやきのフォームを表示 -->
 			<c:if test="${ isShowMessageForm }">
@@ -93,9 +100,7 @@
 					</span> <span class="name"><c:out value="${message.name}" /></span>
 				</div>
 					<div class="text">
-						<pre>
-							<c:out value="${message.text}" />
-						</pre>
+						<pre><c:out value="${message.text}" /></pre>
 					</div>
 					<div class="date">
 						<fmt:formatDate value="${message.createdDate}"
@@ -124,9 +129,7 @@
 								</span> <span class="name"><c:out value="${comment.name}" /></span>
 							</div>
 								<div class="text">
-								<pre>
-									<c:out value="${comment.text}" />
-								</pre>
+								<pre><c:out value="${comment.text}" /></pre>
 							</div>
 							<div class="date">
 								<fmt:formatDate value="${comment.createdDate}"
@@ -134,6 +137,7 @@
 							</div>
 						</c:if>
 					</c:forEach>
+					<%-- <c:if test="${ message.id == comment.messageId }"> --%>
 					<!-- サーブレットの送信先と送信の仕方 -->
 					<form action="comment" method="post">
 						<textarea name="text" cols="100" rows="5" class="tweet-box"></textarea>
@@ -143,6 +147,7 @@
 						<input type="submit" value="返信">(140文字まで)
 						<input type="hidden" name="messageid" value="${message.id}">
 					</form>
+					<%-- </c:if> --%>
 			</div>
 		</c:forEach>
 		</div>

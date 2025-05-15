@@ -39,8 +39,10 @@ public class TopServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException {
 
-		log.info(new Object(){}.getClass().getEnclosingClass().getName() +
-		        " : " + new Object(){}.getClass().getEnclosingMethod().getName());
+		log.info(new Object() {
+		}.getClass().getEnclosingClass().getName() +
+				" : " + new Object() {
+				}.getClass().getEnclosingMethod().getName());
 
 		/*//セッションからログインユーザーを取得し、ログインユーザーのオブジェクトが取得できた
 		 * 場合(nullではなかった場合)には変数isShowMessageFormにtrueを設定するというコード。*/
@@ -48,18 +50,22 @@ public class TopServlet extends HttpServlet {
 		boolean isShowMessageForm = false;
 		//ログイン情報を取得、LoginServletでログイン情報をセッションに格納しているので、
 		User user = (User) request.getSession().getAttribute("loginUser");
-		//ログインしていたらteueになり、つぶやきフォームを表示（top.jsp)
+		//ログインしていたらtrueになり、つぶやきフォームを表示（top.jsp)
 		if (user != null) {
 			isShowMessageForm = true;
 		}
 
 		//リンクが押された時にIDでつぶやきを絞る為に、top.jspからuser_idを取得
 		String userId = request.getParameter("user_id");
+		String start = request.getParameter("start");
+		String end = request.getParameter("end");
+
+		request.getParameter("");
 		/*セレクトメソッドを呼び出し（引数userId）、Daoから帰ってきた情報を
 		List<UserMessage> messagesに格納している*/
-		List<UserMessage> messages = new MessageService().select(userId);
+		List<UserMessage> messages = new MessageService().select(userId, start, end);
 		//引数がいらない
-		List<UserComment> comments= new CommentService().select(userId);
+		List<UserComment> comments = new CommentService().select(userId);
 
 		//requestにセットしてtop.jspにforward(request, response)している。
 		request.setAttribute("messages", messages);
@@ -67,6 +73,8 @@ public class TopServlet extends HttpServlet {
 		//リクエストに返信内容をセットする必要がある。
 		request.setAttribute("comments", comments);
 		request.setAttribute("isShowMessageForm", isShowMessageForm);
+		request.setAttribute("start", start);
+		request.setAttribute("end", end);
 		request.getRequestDispatcher("/top.jsp").forward(request, response);
 	}
 }
