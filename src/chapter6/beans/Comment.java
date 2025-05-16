@@ -27,7 +27,7 @@ public class Comment {
 		return messageId;
 	}
 	public void setMessageId(int messageId) {
-			this.messageId = messageId;
+		this.messageId = messageId;
 	}
 	public Date getCreatedDate() {
 		return createdDate;

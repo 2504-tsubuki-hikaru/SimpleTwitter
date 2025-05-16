@@ -7,12 +7,12 @@ public class UserComment implements Serializable {
 
 	private int id;
 	private int messageId;
-    private String account;
-    private String name;
-    private int userId;
-    private String text;
-    private Date createdDate;
-    public int getId() {
+	private String account;
+	private String name;
+	private int userId;
+	private String text;
+	private Date createdDate;
+	public int getId() {
 		return id;
 	}
 	public void setId(int id) {

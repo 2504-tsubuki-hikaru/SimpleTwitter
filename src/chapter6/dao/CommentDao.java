@@ -59,7 +59,7 @@ public class CommentDao {
 			ps.setInt(2, comments.getUserId());
 			ps.setInt(3, comments.getMessageId());
 
-			/*SQLを実行データ更新ならexecuteUpdate*/
+			//SQLを実行データ更新ならexecuteUpdate
 			ps.executeUpdate();
 		} catch (SQLException e) {
 			log.log(Level.SEVERE, new Object() {

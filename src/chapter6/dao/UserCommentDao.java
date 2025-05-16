@@ -31,7 +31,7 @@ public class UserCommentDao {
 	    application.init();
 	}
 
-	public List<UserComment> select(Connection connection, Integer id, int num) {
+	public List<UserComment> select(Connection connection, int num) {
 
 		log.info(new Object() {
 		}.getClass().getEnclosingClass().getName() +

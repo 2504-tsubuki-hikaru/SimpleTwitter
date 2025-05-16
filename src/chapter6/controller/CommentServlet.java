@@ -47,7 +47,6 @@ public class CommentServlet extends HttpServlet {
 
 		//セッションからユーザーの情報を取得（loginUserをセッションから取得）
 		HttpSession session = request.getSession();
-		//List<String> errorMessages = new ArrayList<String>();
 
 		//入力フォームで送信されたつぶやきを取得し、text変数に格納(top.jspで設定している、getParameter()でtextを取得)
 		String text = request.getParameter("text");
@@ -60,12 +59,6 @@ public class CommentServlet extends HttpServlet {
 			response.sendRedirect("./");
 			return;
 		}
-		//isValidメソッドでエラーがあれば、エラーメッセージをセッションにセットしてtop.jspにリダイレクト
-		/*if (!isValid(text, errorMessages)) {
-			session.setAttribute("errorMessages", errorMessages);
-			response.sendRedirect("./");
-			return;
-		}*/
 
 		int messageId = Integer.parseInt(number);
 
@@ -81,7 +74,7 @@ public class CommentServlet extends HttpServlet {
 
 		new CommentService().insert(comments);
 
-		/*top.jspに遷移*/
+		//top.jspに遷移
 		response.sendRedirect("./");
 	}
 

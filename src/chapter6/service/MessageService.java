@@ -87,8 +87,7 @@ public class MessageService {
 			//string型に型変換をして引数でわたす。
 			Calendar cal = Calendar.getInstance();
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd/ HH:mm:ss");
-			String date = sdf.format(cal.getTime());
-			end = date;
+			end = sdf.format(cal.getTime());
 		}
 
 		try {

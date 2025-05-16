@@ -64,14 +64,13 @@ public class TopServlet extends HttpServlet {
 		List<UserMessage> messagesに格納している*/
 		List<UserMessage> messages = new MessageService().select(userId, start, end);
 		//引数がいらない
-		List<UserComment> comments = new CommentService().select(userId);
+		List<UserComment> comments = new CommentService().select();
 
 		//requestにセットしてtop.jspにforward(request, response)している。
 		request.setAttribute("messages", messages);
 		request.setAttribute("isShowMessageForm", isShowMessageForm);
 		//リクエストに返信内容をセットする必要がある。
 		request.setAttribute("comments", comments);
-		request.setAttribute("isShowMessageForm", isShowMessageForm);
 		request.setAttribute("start", start);
 		request.setAttribute("end", end);
 		request.getRequestDispatcher("/top.jsp").forward(request, response);
