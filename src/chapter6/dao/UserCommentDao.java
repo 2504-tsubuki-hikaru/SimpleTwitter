@@ -51,7 +51,6 @@ public class UserCommentDao {
 			sql.append("    comments.created_date as created_date ");
 			sql.append("FROM comments ");
 			sql.append("INNER JOIN users ");
-			//
 			sql.append("ON comments.user_id = users.id ");
 			//データを降順に並び変える		as=カラム名の変更
 			sql.append("ORDER BY created_date DESC limit " + num);

@@ -74,23 +74,23 @@ public class MessageService {
 
 		Connection connection = null;
 
-		if (!StringUtils.isBlank(start)) {
-			start = start + " 00:00:00";
-		} else {
-			start = "2020/01/01 00:00:00";
-		}
-
-		if (!StringUtils.isBlank(end)) {
-			end = end + " 23:59:59";
-		} else {
-			//Calendarクラスで日付の取得ができる。
-			//string型に型変換をして引数でわたす。
-			Calendar cal = Calendar.getInstance();
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd/ HH:mm:ss");
-			end = sdf.format(cal.getTime());
-		}
-
 		try {
+			if (!StringUtils.isBlank(start)) {
+				start = start + " 00:00:00";
+			} else {
+				start = "2020/01/01 00:00:00";
+			}
+
+			if (!StringUtils.isBlank(end)) {
+				end = end + " 23:59:59";
+			} else {
+				//Calendarクラスで日付の取得ができる。
+				//string型に型変換をして引数でわたす。
+				Calendar cal = Calendar.getInstance();
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd/ HH:mm:ss");
+				end = sdf.format(cal.getTime());
+			}
+
 			//URLやパスワードをconnection変数にいれている？
 			connection = getConnection();
 

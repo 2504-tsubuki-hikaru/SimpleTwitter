@@ -49,7 +49,6 @@
 			</div>
 			<c:remove var="errorMessages" scope="session" />
 		</c:if>
-<!-- -->
 		<form action="./" method="get">
 			日付
 			<input type="date" name="start" value="${start}">
@@ -137,7 +136,7 @@
 							</div>
 						</c:if>
 					</c:forEach>
-					<c:if test="${ loginUser.id == message.userId }">
+					<c:if test="${ not empty loginUser }">
 					<!-- サーブレットの送信先と送信の仕方 -->
 						<form action="comment" method="post">
 							<textarea name="text" cols="100" rows="5" class="tweet-box"></textarea>
