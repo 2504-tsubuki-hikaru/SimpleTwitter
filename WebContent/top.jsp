@@ -137,17 +137,17 @@
 							</div>
 						</c:if>
 					</c:forEach>
-					<%-- <c:if test="${ message.id == comment.messageId }"> --%>
+					<c:if test="${ loginUser.id == message.userId }">
 					<!-- サーブレットの送信先と送信の仕方 -->
-					<form action="comment" method="post">
-						<textarea name="text" cols="100" rows="5" class="tweet-box"></textarea>
-						<!-- brタグは改行のこと -->
-						<br />
-						<!-- 入力フォームでユーザーから入力情報を取得するためのタグ -->
-						<input type="submit" value="返信">(140文字まで)
-						<input type="hidden" name="messageid" value="${message.id}">
-					</form>
-					<%-- </c:if> --%>
+						<form action="comment" method="post">
+							<textarea name="text" cols="100" rows="5" class="tweet-box"></textarea>
+							<!-- brタグは改行のこと -->
+							<br />
+							<!-- 入力フォームでユーザーから入力情報を取得するためのタグ -->
+							<input type="submit" value="返信">(140文字まで)
+							<input type="hidden" name="messageid" value="${message.id}">
+						</form>
+					</c:if>
 			</div>
 		</c:forEach>
 		</div>

@@ -74,13 +74,13 @@ public class MessageService {
 
 		Connection connection = null;
 
-		if (start != null) {
+		if (!StringUtils.isBlank(start)) {
 			start = start + " 00:00:00";
 		} else {
 			start = "2020/01/01 00:00:00";
 		}
 
-		if (end != null) {
+		if (!StringUtils.isBlank(end)) {
 			end = end + " 23:59:59";
 		} else {
 			//Calendarクラスで日付の取得ができる。

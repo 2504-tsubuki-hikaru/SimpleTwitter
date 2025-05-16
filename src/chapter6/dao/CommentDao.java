@@ -14,56 +14,59 @@ import chapter6.logging.InitApplication;
 
 public class CommentDao {
 
-	 /**
-	    * ロガーインスタンスの生成
-	    */
-	    Logger log = Logger.getLogger("twitter");
+	/**
+	   * ロガーインスタンスの生成
+	   */
+	Logger log = Logger.getLogger("twitter");
 
-	    /**
-	    * デフォルトコンストラクタ
-	    * アプリケーションの初期化を実施する。
-	    */
-	    public CommentDao() {
-	        InitApplication application = InitApplication.getInstance();
-	        application.init();
-	    }
+	/**
+	* デフォルトコンストラクタ
+	* アプリケーションの初期化を実施する。
+	*/
+	public CommentDao() {
+		InitApplication application = InitApplication.getInstance();
+		application.init();
+	}
 
-	    public void insert(Connection connection, Comment comments) {
+	public void insert(Connection connection, Comment comments) {
 
-	  	  log.info(new Object(){}.getClass().getEnclosingClass().getName() +
-	          " : " + new Object(){}.getClass().getEnclosingMethod().getName());
+		log.info(new Object() {
+		}.getClass().getEnclosingClass().getName() +
+				" : " + new Object() {
+				}.getClass().getEnclosingMethod().getName());
 
-	          PreparedStatement ps = null;
-	          try {
-	              StringBuilder sql = new StringBuilder();
-	              sql.append("INSERT INTO comments ( ");
-	              sql.append("    text, ");
-	              sql.append("    user_id, ");
-	              sql.append("    message_id, ");
-	              sql.append("    created_date, ");
-	              sql.append("    updated_date ");
-	              sql.append(") VALUES ( ");
-	              sql.append("    ?, ");                  // text
-	              sql.append("    ?, ");					// userid
-	              sql.append("    ?, ");					//messageid
-	              sql.append("    CURRENT_TIMESTAMP, ");  // created_date
-	              sql.append("    CURRENT_TIMESTAMP ");   // updated_date
-	              sql.append(")");
+		PreparedStatement ps = null;
+		try {
+			StringBuilder sql = new StringBuilder();
+			sql.append("INSERT INTO comments ( ");
+			sql.append("    text, ");
+			sql.append("    user_id, ");
+			sql.append("    message_id, ");
+			sql.append("    created_date, ");
+			sql.append("    updated_date ");
+			sql.append(") VALUES ( ");
+			sql.append("    ?, "); // text
+			sql.append("    ?, "); // userid
+			sql.append("    ?, "); //messageid
+			sql.append("    CURRENT_TIMESTAMP, "); // created_date
+			sql.append("    CURRENT_TIMESTAMP "); // updated_date
+			sql.append(")");
 
-	              ps = connection.prepareStatement(sql.toString());
+			ps = connection.prepareStatement(sql.toString());
 
-	              //comments型で書き換える。（引数も）
-	              ps.setString(1, comments.getText());
-	              ps.setInt(2, comments.getUserId());
-	              ps.setInt(3, comments.getMessageId());
+			//comments型で書き換える。（引数も）
+			ps.setString(1, comments.getText());
+			ps.setInt(2, comments.getUserId());
+			ps.setInt(3, comments.getMessageId());
 
-	              /*SQLを実行データ更新ならexecuteUpdate*/
-	              ps.executeUpdate();
-	          } catch (SQLException e) {
-	        	  log.log(Level.SEVERE, new Object(){}.getClass().getEnclosingClass().getName() + " : " + e.toString(), e);
-	              throw new SQLRuntimeException(e);
-	          } finally {
-	              close(ps);
-	          }
-	    }
+			/*SQLを実行データ更新ならexecuteUpdate*/
+			ps.executeUpdate();
+		} catch (SQLException e) {
+			log.log(Level.SEVERE, new Object() {
+			}.getClass().getEnclosingClass().getName() + " : " + e.toString(), e);
+			throw new SQLRuntimeException(e);
+		} finally {
+			close(ps);
+		}
+	}
 }

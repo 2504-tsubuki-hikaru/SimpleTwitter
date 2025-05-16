@@ -60,7 +60,6 @@ public class TopServlet extends HttpServlet {
 		String start = request.getParameter("start");
 		String end = request.getParameter("end");
 
-		request.getParameter("");
 		/*セレクトメソッドを呼び出し（引数userId）、Daoから帰ってきた情報を
 		List<UserMessage> messagesに格納している*/
 		List<UserMessage> messages = new MessageService().select(userId, start, end);
